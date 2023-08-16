@@ -99,6 +99,7 @@ def export_subject(s: Subject, xpath: str = ""):
 
     # creates a tuple of sorted weeks as ints (to enable sorting)
     weeks = sorted(list((set([int(lesson.week) for lesson in s.all_lessons]))))
+    print(f'Before ordering: weeks={weeks}')
 
     # put A or B into the week numbers
     weeks_str = []
@@ -116,8 +117,8 @@ def export_subject(s: Subject, xpath: str = ""):
             weeks_vt.append(week)
 
     weeks = weeks_ht + weeks_vt
-    # print('weeks_str is', weeks_str)
-    # print("ht+vt is", weeks)
+    print(f'After ordering: weeks_str={weeks_str}')
+    print(f'After ordering: weeks={weeks}')
     row = 1
     col = 1
     ws.set_row(0, height=30)
@@ -134,7 +135,7 @@ def export_subject(s: Subject, xpath: str = ""):
     # write a column of weeks
     row = 2
     col = 0
-    for week in weeks_str:
+    for week in weeks:
         # print('Printing week number ', week)
         ws.write(row, col, week, heading_top_f)
         ws.set_row(row, height=25)
