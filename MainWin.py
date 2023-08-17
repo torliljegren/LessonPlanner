@@ -1063,11 +1063,11 @@ class MainWin(Toplevel):
         except:
             pass
 
-    def select_multi(self, event, clicked_entry, all=False):
+    def _select_multi(self, event, clicked_entry, all=False):
         # selects all entries between two endpoints when shift is held (all=True)
         # selects all non locked entries between endpoints when control is held (all=False)
-        if len(self.get_selected_rows()) > 1:
-            return
+        # if len(self.get_selected_rows()) > 1:
+        #    return
 
         prev_id = int(self.get_selected_rows()[0].var_id.get())
         new_id = int(clicked_entry.var_id.get())
@@ -1082,6 +1082,36 @@ class MainWin(Toplevel):
                 entry.checkbox_selected.invoke()
             elif not (entry.var_cancelled.get() or entry.var_test.get()):
                 entry.checkbox_selected.invoke()
+
+    def select_multi(self, event, clicked_entry, all=False):
+        # selects all entries between two endpoints when shift is held (all=True)
+        # selects all non locked entries between endpoints when control is held (all=False)
+
+        sel_rows = self.get_selected_rows()
+
+        prev_id_lo = int(sel_rows[0].var_id.get())
+        prev_id_hi = int(sel_rows[-1].var_id.get())
+
+        new_id = int(clicked_entry.var_id.get())
+
+        index_lo = prev_id_lo if prev_id_lo < new_id else new_id
+        index_hi = new_id if new_id > prev_id_hi else prev_id_hi
+
+        # select entries between the clicked index and the prev. selected
+        for i in range(index_lo + 1, index_hi):
+            entry = self.get_entry_at_id(i)
+            if entry.var_selected.get():
+                pass
+            elif all:
+                entry.checkbox_selected.invoke()
+            elif not (entry.var_cancelled.get() or entry.var_test.get()):
+                entry.checkbox_selected.invoke()
+
+    def select_multi_upw(self, all: bool):
+        pass
+
+    def select_multi_dw(self, all: bool):
+        pass
 
     def on_close(self):
         # print("on_close(): Asking about quit")
@@ -1120,7 +1150,7 @@ class MainWin(Toplevel):
                              lid=entry.var_id.get(): self.day_clicked(event, v, lid))
         entry.label_duration.bind("<Button-1>", lambda v, e=entry: self.change_duration(v, e))
         entry.checkbox_selected.bind("<Shift-1>", lambda v, e=entry: self.select_multi(v, e, all=True))
-        entry.checkbox_selected.bind("<Control-1>", lambda v,e=entry: self.select_multi(v, e))
+        entry.checkbox_selected.bind("<Control-Shift-1>", lambda v,e=entry: self.select_multi(v, e))
         entry.entry_topic.bind("<Up>", lambda v, e=entry.entry_topic: self.key_up(v, e))
         entry.entry_pages.bind("<Up>", lambda v, e=entry.entry_pages: self.key_up(v, e))
         entry.entry_assignment.bind("<Up>", lambda v, e=entry.entry_assignment: self.key_up(v, e))
