@@ -88,6 +88,8 @@ class MainWin(Toplevel):
         # stores lesson duration total for LessonEntry to work with to update the time when cancelled or test i pressed
         self.total_minutes = 0
 
+        self.style = tkinter.ttk.Style()
+
         ################################
         #           HEADINGS           #
         ################################
@@ -138,78 +140,80 @@ class MainWin(Toplevel):
         ################################
         #            TOOLBAR           #
         ################################
+        self.style.configure('Toolbar.TFrame', bg="#F6F6F6", borderthickness=2, bordercolor="#D7D7D7")
+
         ttpdelay = 0.5 # tooltip delay
 
-        self.button_strip = Frame(master=self, borderwidth=1, highlightbackground="#D7D7D7", highlightthickness=3,
-                             bg="#F6F6F6")
+        self.button_strip = ttk.Frame(master=self, style='Toolbar.TFrame')#borderwidth=1, highlightbackground="#D7D7D7", highlightthickness=1,
+                             #bg="#F6F6F6")
         self.button_strip.grid(row=0, column=0, sticky="ew")
 
         self.load_image = PhotoImage(file="open.png")
-        load_button = Button(master=self.button_strip, image=self.load_image, command=lambda: self.open_csv(infowin=self.parent),
-                             background=BUTTON_COLOR, relief=BUTTON_RELIEF,
-                             highlightbackground=BUTTON_HLCOLOR)
+        load_button = ttk.Button(master=self.button_strip, image=self.load_image, command=lambda: self.open_csv(infowin=self.parent))#,
+                             #background=BUTTON_COLOR, relief=BUTTON_RELIEF,
+                             #highlightbackground=BUTTON_HLCOLOR)
         load_button.grid(row=0, column=0, padx=(10, 2))
         ToolTip(load_button, "Öppna", delay=ttpdelay, follow=False)
 
         self.save_image = PhotoImage(file="save.png")
         self.check_image = PhotoImage(file="check.png")
-        self.save_button = Button(master=self.button_strip, image=self.save_image, command=self.save_csv, background=BUTTON_COLOR,
-                             relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        self.save_button = ttk.Button(master=self.button_strip, image=self.save_image, command=self.save_csv)#, background=BUTTON_COLOR,
+                             #relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         self.save_button.grid(row=0, column=1, padx=(2, 10))
         ToolTip(self.save_button, "Spara", delay=ttpdelay, follow=False)
 
         self.up_image = PhotoImage(file="up.png")
-        up_button = Button(master=self.button_strip, image=self.up_image, command=self.up_pressed, background=BUTTON_COLOR,
-                           relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        up_button = ttk.Button(master=self.button_strip, image=self.up_image, command=self.up_pressed)#, background=BUTTON_COLOR,
+                           #relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         up_button.grid(row=0, column=2, padx=(10, 2), pady=10)
         ToolTip(up_button, "Flytta upp lektion", delay=ttpdelay, follow=False)
 
         self.down_image = PhotoImage(file="down.png")
-        down_button = Button(master=self.button_strip, image=self.down_image, command=self.down_pressed,
-                             background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        down_button = ttk.Button(master=self.button_strip, image=self.down_image, command=self.down_pressed)#,
+                             #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         down_button.grid(row=0, column=3, padx=(2, 10), pady=10)
         ToolTip(down_button, "Flytta ned lektion", delay=ttpdelay, follow=False)
 
         self.move_image = PhotoImage(file="move.png")
-        move_button = Button(master=self.button_strip, image=self.move_image, command=self.move_pressed,
-                             background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        move_button = ttk.Button(master=self.button_strip, image=self.move_image, command=self.move_pressed)#,
+                             #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         move_button.grid(row=0, column=4, padx=(10, 10), pady=10)
         ToolTip(move_button, "Flytta lektion till", delay=ttpdelay, follow=False)
 
         self.new_image = PhotoImage(file="new2.png")
-        new_button = Button(master=self.button_strip, image=self.new_image, command=self.new_empty_pressed,
-                            background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        new_button = ttk.Button(master=self.button_strip, image=self.new_image, command=self.new_empty_pressed)#,
+                            #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         new_button.grid(row=0, column=5, padx=(10, 2), pady=10)
         ToolTip(new_button, "Infoga tom rad", delay=ttpdelay, follow=False)
 
         self.remove_image = PhotoImage(file="delete.png")
-        remove_button = Button(master=self.button_strip, image=self.remove_image,
-                               command=lambda:self.remove_row(undo=True), background=BUTTON_COLOR,
-                               relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        remove_button = ttk.Button(master=self.button_strip, image=self.remove_image,
+                               command=lambda:self.remove_row(undo=True))#, background=BUTTON_COLOR,
+                               #relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         remove_button.grid(row=0, column=6, padx=(2, 10), pady=10)
         ToolTip(remove_button, "Ta bort rad", delay=ttpdelay, follow=False)
 
         self.clear_image = PhotoImage(file="clear.png")
-        clear_button = Button(master=self.button_strip, image=self.clear_image, command=lambda:self.clear_row(undo=True),
-                              background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        clear_button = ttk.Button(master=self.button_strip, image=self.clear_image, command=lambda:self.clear_row(undo=True))#,
+                              #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         clear_button.grid(row=0, column=8, padx=(10, 10), pady=10)
         ToolTip(clear_button, "Rensa lektionens innehåll", delay=ttpdelay, follow=False)
 
         self.odd_image = PhotoImage(file="new.png")
-        insert_odd_button = Button(master=self.button_strip, image=self.odd_image, command=self.create_odd_lesson,
-                                   background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        insert_odd_button = ttk.Button(master=self.button_strip, image=self.odd_image, command=self.create_odd_lesson)#,
+                                   #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         insert_odd_button.grid(row=0, column=7, padx=(10, 10), pady=10)
         ToolTip(insert_odd_button, "Skapa ny lektion", delay=ttpdelay, follow=False)
 
         self.bomb_image = PhotoImage(file="bomb.png")
-        remove_all_button = Button(master=self.button_strip, image=self.bomb_image, command=self.bomb_pressed,
-                                   background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
+        remove_all_button = ttk.Button(master=self.button_strip, image=self.bomb_image, command=self.bomb_pressed)#,
+                                   #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         remove_all_button.grid(row=0, column=9, padx=(10, 10), pady=10)
         ToolTip(remove_all_button, "Ta bort lektion från planeringen", delay=ttpdelay, follow=False)
 
-        all_var = BooleanVar(master=self.button_strip)
-        self.all_checkbox = Checkbutton(master=self.button_strip, text="Alla", variable=all_var, command=self.all_select,
-                                        bg="#F6F6F6")
+        self.all_var = BooleanVar(master=self.button_strip)
+        self.all_checkbox = ttk.Checkbutton(master=self.button_strip, text="Alla", variable=self.all_var, command=self.all_select)#,
+                                        #bg="#F6F6F6")
         self.all_checkbox.grid(row=0, column=10, sticky="E", padx=30)
         ToolTip(self.all_checkbox, "Markera alla/avmarkera valda", delay=ttpdelay, follow=False)
 
@@ -307,7 +311,6 @@ class MainWin(Toplevel):
         self.update_wintitle()
 
         if platform.system() == "Linux":
-            self.style = tkinter.ttk.Style()
             self.style.theme_use("clam")
 
         self.geometry('+%d+%d' % (x, y))
@@ -360,7 +363,8 @@ class MainWin(Toplevel):
             self.deselect_all()
         else:
             self.select_all()
-        self.all_checkbox.deselect()
+        #self.all_checkbox.deselect()
+        self.all_var.set(False)
         focused.focus_set()
 
     def heading_clicked(self, event):
