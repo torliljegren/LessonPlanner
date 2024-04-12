@@ -163,38 +163,38 @@ class MainWin(Toplevel):
         ToolTip(self.save_button, "Spara", delay=ttpdelay, follow=False)
 
         self.up_image = PhotoImage(file="up.png")
-        up_button = ttk.Button(master=self.button_strip, image=self.up_image, command=self.up_pressed)#, background=BUTTON_COLOR,
+        up_button = ttk.Button(master=self.button_strip, image=self.up_image, command=self.up_pressed, takefocus=False)#, background=BUTTON_COLOR,
                            #relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         up_button.grid(row=0, column=2, padx=(10, 2), pady=10)
         ToolTip(up_button, "Flytta upp lektion", delay=ttpdelay, follow=False)
 
         self.down_image = PhotoImage(file="down.png")
-        down_button = ttk.Button(master=self.button_strip, image=self.down_image, command=self.down_pressed)#,
+        down_button = ttk.Button(master=self.button_strip, image=self.down_image, command=self.down_pressed, takefocus=False)#,
                              #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         down_button.grid(row=0, column=3, padx=(2, 10), pady=10)
         ToolTip(down_button, "Flytta ned lektion", delay=ttpdelay, follow=False)
 
         self.move_image = PhotoImage(file="move.png")
-        move_button = ttk.Button(master=self.button_strip, image=self.move_image, command=self.move_pressed)#,
+        move_button = ttk.Button(master=self.button_strip, image=self.move_image, command=self.move_pressed, takefocus=False)#,
                              #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         move_button.grid(row=0, column=4, padx=(10, 10), pady=10)
         ToolTip(move_button, "Flytta lektion till", delay=ttpdelay, follow=False)
 
         self.new_image = PhotoImage(file="new2.png")
-        new_button = ttk.Button(master=self.button_strip, image=self.new_image, command=self.new_empty_pressed)#,
+        new_button = ttk.Button(master=self.button_strip, image=self.new_image, command=self.new_empty_pressed, takefocus=False)#,
                             #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         new_button.grid(row=0, column=5, padx=(10, 2), pady=10)
         ToolTip(new_button, "Infoga tom rad", delay=ttpdelay, follow=False)
 
         self.remove_image = PhotoImage(file="delete.png")
         remove_button = ttk.Button(master=self.button_strip, image=self.remove_image,
-                               command=lambda:self.remove_row(undo=True))#, background=BUTTON_COLOR,
+                               command=lambda:self.remove_row(undo=True), takefocus=False)#, background=BUTTON_COLOR,
                                #relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         remove_button.grid(row=0, column=6, padx=(2, 10), pady=10)
         ToolTip(remove_button, "Ta bort rad", delay=ttpdelay, follow=False)
 
         self.clear_image = PhotoImage(file="clear.png")
-        clear_button = ttk.Button(master=self.button_strip, image=self.clear_image, command=lambda:self.clear_row(undo=True))#,
+        clear_button = ttk.Button(master=self.button_strip, image=self.clear_image, command=lambda:self.clear_row(undo=True), takefocus=False)#,
                               #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         clear_button.grid(row=0, column=8, padx=(10, 10), pady=10)
         ToolTip(clear_button, "Rensa lektionens innehåll", delay=ttpdelay, follow=False)
@@ -206,7 +206,7 @@ class MainWin(Toplevel):
         ToolTip(insert_odd_button, "Skapa ny lektion", delay=ttpdelay, follow=False)
 
         self.bomb_image = PhotoImage(file="bomb.png")
-        remove_all_button = ttk.Button(master=self.button_strip, image=self.bomb_image, command=self.bomb_pressed)#,
+        remove_all_button = ttk.Button(master=self.button_strip, image=self.bomb_image, command=self.bomb_pressed, takefocus=False)#,
                                    #background=BUTTON_COLOR, relief=BUTTON_RELIEF, highlightbackground=BUTTON_HLCOLOR)
         remove_all_button.grid(row=0, column=9, padx=(10, 10), pady=10)
         ToolTip(remove_all_button, "Ta bort lektion från planeringen", delay=ttpdelay, follow=False)
@@ -310,6 +310,9 @@ class MainWin(Toplevel):
         y = (hs / 8) if platform.system() == "Darwin" else 0
         self.update_wintitle()
 
+        # stop the ttk.Button from taking focus
+        # self.option_add('*TButton*takeFocus', 0)
+
         if platform.system() == "Linux":
             self.style.theme_use("clam")
 
@@ -325,6 +328,7 @@ class MainWin(Toplevel):
     ################################
 
     def up_pressed(self, undo=True):
+        print('Up!')
         if undo:
             self.undo_push()
 
